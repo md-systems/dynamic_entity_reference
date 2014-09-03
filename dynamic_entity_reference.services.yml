@@ -1,0 +1,6 @@
+services:
+  serializer.normalizer.dynamic_entity_reference_item.hal:
+    class: Drupal\dynamic_entity_reference\Normalizer\DynamicEntityReferenceItemNormalizer
+    arguments: ['@rest.link_manager', '@serializer.entity_resolver']
+    tags:
+      - { name: normalizer, priority: 20 }
