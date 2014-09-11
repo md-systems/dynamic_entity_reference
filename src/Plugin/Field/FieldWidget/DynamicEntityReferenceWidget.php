@@ -50,7 +50,7 @@ class DynamicEntityReferenceWidget extends AutocompleteWidget {
       'field_name' => $this->fieldDefinition->getName(),
       'entity_type' => $entity->getEntityTypeId(),
       'bundle_name' => $entity->bundle(),
-      'target_type' => $items->get($delta)->target_type ?: reset($available),
+      'target_type' => $items->get($delta)->target_type ?: key($available),
     );
 
     $element += array(
