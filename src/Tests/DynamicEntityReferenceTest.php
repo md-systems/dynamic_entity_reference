@@ -187,6 +187,20 @@ class DynamicEntityReferenceTest extends WebTestBase {
     \Drupal::entityManager()->getStorage('entity_test')->resetCache(array($entity->id()));
     $entity = entity_load('entity_test', $entity->id());
     $this->assertEqual(count($entity->field_foobar), 2, 'Two values in field');
+
+    $this->drupalGet('entity_test/manage/' . $entity->id());
+    $edit = array(
+      'name' => 'Bazbar',
+      // Reference itself.
+      'field_foobar[1][target_id]' => 'Bazbar (' . $entity->id() . ')',
+    );
+    $this->drupalPostForm(NULL, $edit, t('Save'));
+    $this->drupalGet('entity_test/' . $entity->id());
+    $this->assertText('Bazbar');
+    // Reload entity.
+    \Drupal::entityManager()->getStorage('entity_test')->resetCache(array($entity->id()));
+    $entity = entity_load('entity_test', $entity->id());
+    $this->assertEqual($entity->field_foobar[1]->entity->label(), 'Bazbar');
   }
 
 }
